@@ -12,7 +12,10 @@
     @csrf
 		<div>
 			<label for="name">名前</label>
-			<input type="text" name="name" value="{{ $product->name }}">
+			<input type="text" name="name" value="{{ old('name', $product->name) }}">
+      @error('name')
+        {{ $message }}   
+      @enderror
 		</div>
 		<input type="submit" value="更新する">
 	</form>
