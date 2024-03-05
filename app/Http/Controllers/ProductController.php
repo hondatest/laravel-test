@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
@@ -27,9 +28,12 @@ class ProductController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     *
+     * @access public 
+     * @param StoreProductRequest $request
+     * @return RedirectResponse
      */
-    //public function store(StoreProductRequest $request)
-    public function store(Request $request)
+    public function store(StoreProductRequest $request): RedirectResponse
     {
         Product::create($request->all());
 

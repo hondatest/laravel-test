@@ -12,6 +12,9 @@
 		<div>
 			<label for="name">名前</label>
 			<input type="text" id="name" name="name">
+      @error('name')
+        {{ $message }}   
+      @enderror
 		</div>
 		<input type="submit" value="投稿する">
 	</form>
