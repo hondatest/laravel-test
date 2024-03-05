@@ -55,12 +55,16 @@ class ProductController extends Controller
     {
         return view('product.edit', [ 'product' => $product ]);
     }
-
+     
     /**
      * Update the specified resource in storage.
+     *
+     * @access public
+     * @param UpdateProductRequest $request
+     * @param Product $product
+     * @return RedirectResponse
      */
-    //public function update(UpdateProductRequest $request, Product $product)
-    public function update(Request $request, Product $product)
+    public function update(UpdateProductRequest $request, Product $product): RedirectResponse
     {
         $product->name = $request->name;
         $product->save();
