@@ -7,6 +7,7 @@
   <title>Document</title>
 </head>
 <body>
+  <a href="{{ route('products.create') }}">商品投稿ページへ</a>
   <ul>
   @foreach ($products as $product)
     <ul>
@@ -20,6 +21,7 @@
           <input type="submit" value="商品を削除する">
         </form>
       </div>
+      <hr>
     </ul>
   @endforeach
   </ul>
