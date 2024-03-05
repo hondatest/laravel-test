@@ -24,6 +24,7 @@
       <hr>
     </ul>
   @endforeach
+  {{ $products->links() }}
   </ul>
 </body>
 </html>
