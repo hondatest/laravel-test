@@ -73,15 +73,4 @@ class ProductController extends Controller
 
         return redirect()->route('products.index');
     }
-
-    /**
-     * 商品メニューを表示する
-     *
-     * @access public
-     * @return void
-     */
-    public function showMenu()
-    {
-      return view('product.showMenu');
-    }
 }
