@@ -14,12 +14,11 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->mediumIncrements('id');
             $table->string('name');
-            //$table->string('description', 1000);
-            //$table->unsignedMediumInteger('price_including_tax');
             $table->timestamps();
-            //$table->foreignId('user_id')
-            //    ->constrained()
-            //    ->cascadeOnUpdate();
+            $table->foreignId('user_id')
+                ->constrained()
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
         });
     }
 
