@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Contracts\View\View;
+use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreReviewRequest;
@@ -28,22 +28,18 @@ class ReviewController extends Controller
      * Display a listing of the resource.
      * 
      * @access public
-     * @return Illuminate\Contracts\View\View
+     * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(): View
     {
         return view('review.index', ['products' => Auth::user()->reviews]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-
+  
     /**
      * Show the form for creating a new resource.
      *
      * @access public
-     * @return Illuminate\Contracts\View\View
+     * @return \Illuminate\View\View
      */
     public function create(): View
     {
@@ -54,8 +50,8 @@ class ReviewController extends Controller
      * Store a newly created resource in storage.
      *
      * @access public
-     * @param StoreReviewRequest $request
-     * @return RedirectResponse
+     * @param  \App\Http\Requests\StoreReviewRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreReviewRequest $request): RedirectResponse
     {
@@ -77,7 +73,7 @@ class ReviewController extends Controller
      * 
      * @access public
      * @param  \App\Models\Review $review
-     * @return \Illuminate\Contracts\View\View
+     * @return \Illuminate\View\View
      */
     public function edit(Review $review): View
     {
