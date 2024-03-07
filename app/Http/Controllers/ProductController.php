@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
@@ -13,16 +14,22 @@ class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * 
+     * @access public
+     * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(): view
     {   
         return view('product.index', ['products' => Product::paginate(10)]);
     }
 
     /**
      * Show the form for creating a new resource.
+     * 
+     * @access public
+     * @return \Illuminate\View\View
      */
-    public function create()
+    public function create(): view
     {
         return view('product.create');
     }
@@ -31,8 +38,8 @@ class ProductController extends Controller
      * Store a newly created resource in storage.
      *
      * @access public 
-     * @param StoreProductRequest $request
-     * @return RedirectResponse
+     * @param  \App\Http\Requests\StoreProductRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(StoreProductRequest $request): RedirectResponse
     {
@@ -46,16 +53,24 @@ class ProductController extends Controller
 
     /**
      * Display the specified resource.
+     * 
+     * @access public
+     * @param  \App\Models\Product $product
+     * @return \Illuminate\View\View
      */
-    public function show(Product $product)
+    public function show(Product $product): View
     {
         return view('product.show', ['product' => $product]);
     }
 
     /**
      * Show the form for editing the specified resource.
+     * 
+     * @access public
+     * @param  \App\Models\Product $product
+     * @return \Illuminate\View\View
      */
-    public function edit(Product $product)
+    public function edit(Product $product): View
     {
         return view('product.edit', ['product' => $product]);
     }
@@ -64,9 +79,9 @@ class ProductController extends Controller
      * Update the specified resource in storage.
      *
      * @access public
-     * @param UpdateProductRequest $request
-     * @param Product $product
-     * @return RedirectResponse
+     * @param  \App\Http\Requests\UpdateProductRequest $request
+     * @param  \App\Models\Product $product
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(UpdateProductRequest $request, Product $product): RedirectResponse
     {
@@ -78,8 +93,12 @@ class ProductController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * 
+     * @access public
+     * @param  \App\Models\Product $product
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Product $product)
+    public function destroy(Product $product): RedirectResponse
     {
         $product->delete();
 

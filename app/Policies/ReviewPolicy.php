@@ -10,6 +10,10 @@ class ReviewPolicy
 {
     /**
      * Determine whether the user can view any models.
+     * 
+     * @access public
+     * @param  \App\Models\User $user
+     * @return bool
      */
     public function viewAny(User $user): bool
     {
@@ -17,15 +21,11 @@ class ReviewPolicy
     }
 
     /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, Review $review): bool
-    {
-        //
-    }
-
-    /**
      * Determine whether the user can create models.
+     * 
+     * @access public
+     * @param  \App\Models\User $user
+     * @return bool
      */
     public function create(User $user): bool
     {
@@ -34,6 +34,11 @@ class ReviewPolicy
 
     /**
      * Determine whether the user can update the model.
+     * 
+     * @access public
+     * @param  \App\Models\User $user
+     * @param  \App\Models\Review $review
+     * @return bool
      */
     public function update(User $user, Review $review): bool
     {
@@ -42,6 +47,11 @@ class ReviewPolicy
 
     /**
      * Determine whether the user can delete the model.
+     * 
+     * @access public
+     * @param  \App\Models\User $user
+     * @param  \App\Models\Review $review
+     * @return bool
      */
     public function delete(User $user, Review $review): bool
     {
