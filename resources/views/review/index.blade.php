@@ -8,10 +8,17 @@
 </head>
 <body>
   <h1>投稿済みクチコミ</h1>
-  @foreach ($products as $product)
+  @forelse  ($products as $product)
     商品名: {{ $product->name }}<br>
     クチコミ: {{ $product->pivot->text }}<br>
-    <hr>      
-  @endforeach
+    <form action="{{ route('reviews.destroy', [ 'review' => $product->pivot->id ]) }}" method="post">
+      @csrf
+      @method('delete')
+      <input type="submit" value="クチコミを削除する">
+    </form>
+    <hr>
+    @empty
+      クチコミが投稿されていません
+  @endforelse
 </body>
 </html>
