@@ -74,18 +74,29 @@ class ReviewController extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     * 
+     * @access public
+     * @param  \App\Models\Review $review
+     * @return \Illuminate\Contracts\View\View
      */
-    public function edit(Review $review)
+    public function edit(Review $review): View
     {
-        //
+        return view('review.edit', ['product' => Auth::user()->reviews()->find($review->product_id)]);
     }
 
     /**
      * Update the specified resource in storage.
+     * 
+     * @access public
+     * @param  \App\Http\Requests\UpdateReviewRequest $request
+     * @param  \App\Models\Review $review
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(UpdateReviewRequest $request, Review $review)
+    public function update(UpdateReviewRequest $request, Review $review): RedirectResponse
     {
-        //
+        Auth::user()->reviews()->updateExistingPivot($review->product_id, ['text' => $request->text]);
+
+        return redirect()->route('reviews.index');
     }
 
     /**

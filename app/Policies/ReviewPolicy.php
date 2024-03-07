@@ -37,7 +37,7 @@ class ReviewPolicy
      */
     public function update(User $user, Review $review): bool
     {
-        //
+        return $user->hasPostedReview($review->product_id);
     }
 
     /**
