@@ -10,7 +10,8 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     {{ __("You're logged in!") }}<br><br><br>
-                    <a href="{{ route('products.index') }}">商品一覧ページへ</a>
+                    <a href="{{ route('products.index') }}">商品一覧ページへ</a><br>
+                    <a href="{{ route('reviews.index') }}">投稿済みクチコミページへ</a><br>
                 </div>
             </div>
         </div>
