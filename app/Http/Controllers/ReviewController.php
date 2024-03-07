@@ -26,10 +26,13 @@ class ReviewController extends Controller
 
     /**
      * Display a listing of the resource.
+     * 
+     * @access public
+     * @return Illuminate\Contracts\View\View
      */
     public function index()
     {
-        //
+        return view('review.index', [ 'products' => Auth::user()->reviews ]);
     }
 
     /**

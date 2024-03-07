@@ -53,6 +53,8 @@ class User extends Authenticatable
     public function reviews(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'reviews')
+            ->withPivot('id', 'text')
+            ->orderBy('pivot_id', 'desc')
             ->withTimestamps();
     }
 
