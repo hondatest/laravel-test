@@ -14,10 +14,10 @@
     <ul>
       <div>
         <p>商品名:{{ $product->name }}</p>
-        <a href="{{ route('products.show', [ 'product' => $product->id ]) }}">商品詳細ページへ</a>
-        <a href="{{ route('products.edit', [ 'product' => $product->id ]) }}">商品編集ページへ</a>
-        <a href="{{ route('reviews.create', [ 'product_id' => $product->id ]) }}">クチコミ投稿ページへ</a>
-        <form action="{{ route('products.destroy', [ 'product' => $product->id ]) }}" method="post">
+        <a href="{{ route('products.show', ['product' => $product->id]) }}">商品詳細ページへ</a>
+        <a href="{{ route('products.edit', ['product' => $product->id]) }}">商品編集ページへ</a>
+        <a href="{{ route('reviews.create', ['product_id' => $product->id]) }}">クチコミ投稿ページへ</a>
+        <form action="{{ route('products.destroy', ['product' => $product->id]) }}" method="post">
           @method('delete')
           @csrf
           <input type="submit" value="商品を削除する">
