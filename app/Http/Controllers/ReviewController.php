@@ -32,7 +32,7 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        return view('review.index', [ 'products' => Auth::user()->reviews ]);
+        return view('review.index', ['products' => Auth::user()->reviews]);
     }
 
     /**
@@ -59,9 +59,9 @@ class ReviewController extends Controller
      */
     public function store(StoreReviewRequest $request): RedirectResponse
     {
-        Auth::user()->reviews()->attach($request->product_id, [ 'text' => $request->text ]);
+        Auth::user()->reviews()->attach($request->product_id, ['text' => $request->text]);
         
-        return redirect()->route('products.show', [ 'product' => $request->product_id ]);
+        return redirect()->route('products.show', ['product' => $request->product_id]);
     }
 
     /**

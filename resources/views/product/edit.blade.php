@@ -7,7 +7,7 @@
   <title>商品編集</title>
 </head>
 <body>
-  <form action="{{ route('products.update', [ 'product' => $product->id ]) }}" method="post">
+  <form action="{{ route('products.update', ['product' => $product->id]) }}" method="post">
     @method('put')
     @csrf
     <h1>商品編集</h1>

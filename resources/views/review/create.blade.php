@@ -8,7 +8,7 @@
 </head>
 <body>
   <h1>クチコミ投稿</h1>
-  <form action="{{ route('reviews.store', [ 'product_id' => request()->product_id ]) }}" method="post">
+  <form action="{{ route('reviews.store', ['product_id' => request()->product_id]) }}" method="post">
     @csrf
 		<div>
 			<label for="text">本文</label><br>

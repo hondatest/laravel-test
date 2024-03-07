@@ -12,7 +12,7 @@
     商品名: {{ $product->name }}<br>
     クチコミ: {{ $product->pivot->text }}<br>
     <a href="{{ route('reviews.edit', ['review' => $product->pivot->id]) }}">クチコミ編集ページへ</a><br>
-    <form action="{{ route('reviews.destroy', [ 'review' => $product->pivot->id ]) }}" method="post">
+    <form action="{{ route('reviews.destroy', ['review' => $product->pivot->id]) }}" method="post">
       @csrf
       @method('delete')
       <input type="submit" value="クチコミを削除する">
