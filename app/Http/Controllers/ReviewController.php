@@ -8,7 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreReviewRequest;
 use App\Http\Requests\UpdateReviewRequest;
-use App\Models\Product;
+use App\Models\Review;
 
 class ReviewController extends Controller
 {
@@ -90,9 +90,15 @@ class ReviewController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @access public
+     * @param  \App\Models\Review $review
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Review $review)
+    public function destroy(Review $review): RedirectResponse
     {
-        //
+        Auth::user()->reviews()->detach($review->product_id);
+
+        return redirect()->route('reviews.index');
     }
 }
