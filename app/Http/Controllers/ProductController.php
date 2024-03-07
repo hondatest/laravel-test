@@ -13,6 +13,18 @@ use App\Models\Product;
 class ProductController extends Controller
 {
     /**
+     * 初期化
+     * 
+     * ポリシーで本コントローラーのメソッドの実行を制限する
+     * 
+     * @access public
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Product::class, 'product');
+    }
+
+    /**
      * Display a listing of the resource.
      * 
      * @access public

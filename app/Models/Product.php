@@ -28,4 +28,16 @@ class Product extends Model
             ->orderBy('pivot_id', 'desc')
             ->withTimestamps();
     }
+
+    /**
+     * 同じユーザIDか判定する
+     *
+     * @access public
+     * @param  int $user_id
+     * @return bool
+     */
+    public function isSameUserId(int $user_id): bool
+    {
+        return $this->user_id === $user_id;
+    }
 }
