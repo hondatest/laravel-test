@@ -65,7 +65,7 @@ class User extends Authenticatable
      * @param integer $product_id
      * @return boolean
      */
-    public function hasPostedReview(int $product_id)
+    public function hasPostedReview(int $product_id): bool
     {
         return $this->reviews()->find($product_id) ? true:false;
     }
