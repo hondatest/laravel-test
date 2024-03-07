@@ -27,6 +27,7 @@ return new class extends Migration
                 ->on('users')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
+            $table->unique(['product_id', 'user_id']);
         });
     }
 
