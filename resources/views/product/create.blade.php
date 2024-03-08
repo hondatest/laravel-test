@@ -8,7 +8,7 @@
 </head>
 <body>
   <h1>商品投稿</h1>
-  <form action="{{ route('products.store') }}" method="post">
+  <form action="{{ route('products.store') }}" method="post" enctype="multipart/form-data">
     @csrf
 		<div>
 			<label for="name">名前</label>
@@ -16,7 +16,26 @@
       @error('name')
         {{ $message }}   
       @enderror
+      <br><br>
+			<label>商品画像1</label>
+			<input type="file" name="files[]">
+      @error('files.0')
+        {{ $message }}
+      @enderror
+      <br><br>
+			<label>商品画像2</label>
+			<input type="file" name="files[]">
+      @error('files.1')
+        {{ $message }}
+      @enderror
+      <br><br>
+			<label>商品画像3</label>
+			<input type="file" name="files[]">
+      @error('files.2')
+        {{ $message }}
+      @enderror
 		</div>
+    <br>
 		<input type="submit" value="投稿する">
 	</form>
 </body>

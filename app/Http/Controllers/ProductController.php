@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
@@ -55,10 +56,14 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request): RedirectResponse
     {
-        Product::create([
-          'name' => $request->name,
-          'user_id' => Auth::id()
-        ]);
+        DB::transaction(function () use ($request) {
+            $product = Product::create([
+                'name' => $request->name,
+                'user_id' => Auth::id()
+            ]);
+            
+            $product->saveProductImages($request->file('files'));
+        });
 
         return redirect()->route('products.index');
     }
