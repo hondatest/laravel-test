@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Http\UploadedFile;
+use App\Services\StorageService;
 
 class Product extends Model
 {
@@ -13,7 +16,7 @@ class Product extends Model
     protected $fillable = [
       'name',
       'user_id'
-  ];
+    ];
 
     /**
      * 商品テーブルとクチコミテーブルを関連付ける
@@ -30,6 +33,17 @@ class Product extends Model
     }
 
     /**
+     * 商品テーブルと商品画像テーブルを関連付ける
+     *
+     * @access public
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function productImages(): HasMany
+    {
+        return $this->hasMany(ProductImage::class);
+    }
+
+    /**
      * 同じユーザIDか判定する
      *
      * @access public
@@ -39,5 +53,23 @@ class Product extends Model
     public function isSameUserId(int $user_id): bool
     {
         return $this->user_id === $user_id;
+    }
+
+    /**
+     * 商品画像ファイルを保存する
+     *
+     * @access public
+     * @param array<UploadedFile> $uploaded_files
+     * @return void
+     */
+    public function saveProductImages(array $uploaded_files)
+    {
+        $product_images = [];
+
+        foreach ($uploaded_files as $uploaded_file) {
+            $product_images[] = ['name' => StorageService::putFile(StorageService::PRODUCT_DIRECTORY, $uploaded_file)];
+        }
+
+        $this->productImages()->createMany($product_images);
     }
 }

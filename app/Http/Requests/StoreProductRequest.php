@@ -22,7 +22,15 @@ class StoreProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:20|unique:products'
+            'name' => 'required|string|max:20|unique:products',
+            /**
+             * 画像ファイルのバリデーションでドット記法を書くとrequiredが効かない。
+             * 一方、「files.0」のように配列番号を書くとrequiredが効く。
+             */
+            //'files.*' => 'required|file|max:8192|image|mimes:jpeg,png',
+            'files.0' => 'required|file|max:8192|image|mimes:jpeg,png',
+            'files.1' => 'required|file|max:8192|image|mimes:jpeg,png',
+            'files.2' => 'required|file|max:8192|image|mimes:jpeg,png',
         ];
     }
 }
