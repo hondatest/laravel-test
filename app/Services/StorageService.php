@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\UploadedFile;
 
 class StorageService
 {
@@ -11,29 +10,37 @@ class StorageService
     public const PRODUCT_DIRECTORY = 'images/product';
 
     /**
-     * ファイルを保存する
-     * 
-     * @access public
-     * @param  \Illuminate\Http\UploadedFile $uploaded_file
-     * @return string 保存したファイル名
-     */
-    public static function putFile(string $directory, UploadedFile $uploaded_file): string
-    {
-        $file_path = Storage::putFile($directory, $uploaded_file);
-
-        return basename($file_path);
-    }
-
-    /**
-     * ファイルを削除する
+     * ファイルをストレージに保存する
      * 
      * @access public
      * @param  string $directory
-     * @param  string $file_name
+     * @param  array<\Illuminate\Http\UploadedFile> $uploaded_files
+     * @return array 保存済みファイル名配列
+     */
+    public static function putFiles(string $directory, array $uploaded_files): array
+    {
+        $file_names = [];
+
+        foreach ($uploaded_files as $uploaded_file) {
+            $file_path = Storage::putFile($directory, $uploaded_file);
+            $file_names[] = basename($file_path);
+        }
+
+        return $file_names;
+    }
+
+    /**
+     * ストレージからファイルを削除する
+     * 
+     * @access public
+     * @param  string $directory
+     * @param  array $file_names
      * @return void
      */
-    public static function deleteFile(string $directory, string $file_name): void
+    public static function deleteFiles(string $directory, array $file_names): void
     {
-        Storage::delete($directory . '/' . $file_name);
+        foreach ($file_names as $file_name) {
+            Storage::delete($directory . '/' . $file_name);
+        }
     }
 }

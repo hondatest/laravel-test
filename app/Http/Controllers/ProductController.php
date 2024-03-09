@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
+use App\Services\StorageService;
 
 class ProductController extends Controller
 {
@@ -32,7 +33,7 @@ class ProductController extends Controller
      * @return \Illuminate\View\View
      */
     public function index(): view
-    {   
+    {
         return view('product.index', ['products' => Product::paginate(10)]);
     }
 
@@ -56,14 +57,22 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request): RedirectResponse
     {
-        DB::transaction(function () use ($request) {
-            $product = Product::create([
-                'name' => $request->name,
-                'user_id' => Auth::id()
-            ]);
-            
-            $product->saveProductImages($request->file('files'));
-        });
+        $put_file_names = [];
+
+        try {
+            DB::transaction(function () use ($request, &$put_file_names) {
+                $product = Product::create([
+                    'name' => $request->name,
+                    'user_id' => Auth::id()
+                ]);
+
+                $put_file_names = StorageService::putFiles(StorageService::PRODUCT_DIRECTORY, $request->file('files'));
+                $product->saveProductImages($put_file_names);
+            });
+        } catch (\Exception $e) {
+            // トランザクションエラーになった場合はロールバックするので、保存済み商品画像ファイルを削除する
+            StorageService::deleteFiles(StorageService::PRODUCT_DIRECTORY, $put_file_names);
+        }
 
         return redirect()->route('products.index');
     }
@@ -91,7 +100,7 @@ class ProductController extends Controller
     {
         return view('product.edit', ['product' => $product]);
     }
-     
+
     /**
      * Update the specified resource in storage.
      *
