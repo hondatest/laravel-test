@@ -6,16 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Http\UploadedFile;
-use App\Services\StorageService;
 
 class Product extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-      'name',
-      'user_id'
+        'name',
+        'user_id'
     ];
 
     /**
@@ -56,20 +54,20 @@ class Product extends Model
     }
 
     /**
-     * 商品画像ファイルを保存する
+     * 商品画像情報を商品画像テーブルに保存する
      *
      * @access public
-     * @param array<UploadedFile> $uploaded_files
+     * @param  array $file_names
      * @return void
      */
-    public function saveProductImages(array $uploaded_files)
+    public function saveProductImages(array $file_names): void
     {
-        $product_images = [];
+        $name_columns = [];
 
-        foreach ($uploaded_files as $uploaded_file) {
-            $product_images[] = ['name' => StorageService::putFile(StorageService::PRODUCT_DIRECTORY, $uploaded_file)];
+        foreach ($file_names as $file_name) {
+            $name_columns[] = ['name' => $file_name];
         }
 
-        $this->productImages()->createMany($product_images);
+        $this->productImages()->createMany($name_columns);
     }
 }
