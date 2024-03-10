@@ -125,15 +125,12 @@ class ProductController extends Controller
                 $uploaded_files = $request->file('files');
 
                 if (is_array($uploaded_files)) {
-                    // トランザクションエラーを考慮して、クエリーを全て実行後に商品画像ファイルを削除する
+                    // トランザクションエラーを考慮して、全てのクエリーを実行後に商品画像ファイルを削除する
                     $product->deleteProductImages($uploaded_files);
                     $put_file_names = StorageService::putFiles(StorageService::PRODUCT_DIRECTORY, $uploaded_files);
                     $product->saveProductImages($put_file_names);
-
-                    // クエリーを全て実行後に商品画像ファイルを削除する
-                    foreach (array_keys($uploaded_files) as $key) {
-                        StorageService::deleteFile(StorageService::PRODUCT_DIRECTORY, $product->productImages[$key]->name);
-                    }
+                    // 全てのクエリーを実行後に商品画像ファイルを削除する
+                    $product->deleteProductImagesInStorage($uploaded_files);
                 }
             });
         } catch (\Throwable $e) {
@@ -157,10 +154,9 @@ class ProductController extends Controller
      */
     public function destroy(Product $product): RedirectResponse
     {
-        $productImages = $product->productImages;
+        $product->productImages;
         $product->delete();
-        $file_names_to_delete = $productImages->pluck('name');
-        StorageService::deleteFiles(StorageService::PRODUCT_DIRECTORY, $file_names_to_delete->toArray());
+        $product->deleteAllProductImagesInStorage();
 
         return redirect()->route('products.index');
     }
