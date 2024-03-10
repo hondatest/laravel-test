@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Services\StorageService;
 
 class Product extends Model
 {
@@ -87,5 +88,31 @@ class Product extends Model
         }
 
         $this->productImages()->whereIn('id', $product_images_id_to_delete)->delete();
+    }
+
+    /**
+     * ストレージから商品画像ファイルを削除する
+     *
+     * @access public
+     * @param array<\Illuminate\Http\UploadedFile> $uploaded_files
+     * @return void
+     */
+    public function deleteProductImagesInStorage(array $uploaded_files): void
+    {
+        foreach (array_keys($uploaded_files) as $key) {
+            StorageService::deleteFile(StorageService::PRODUCT_DIRECTORY, $this->productImages[$key]->name);
+        }
+    }
+
+    /**
+     * ストレージから全ての商品画像ファイルを削除する
+     *
+     * @access public
+     * @return void
+     */
+    public function deleteAllProductImagesInStorage(): void
+    {
+        $file_names_to_delete = $this->productImages->pluck('name');
+        StorageService::deleteFiles(StorageService::PRODUCT_DIRECTORY, $file_names_to_delete->toArray());
     }
 }
