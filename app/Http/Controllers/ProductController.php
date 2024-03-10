@@ -148,13 +148,19 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      * 
+     * ・テーブルから商品情報を削除する際にエラーになる可能性がある。
+     * 　そのため、テーブルから商品情報を削除後に商品画像ファイルを削除する。
+     * 
      * @access public
      * @param  \App\Models\Product $product
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Product $product): RedirectResponse
     {
+        $productImages = $product->productImages;
         $product->delete();
+        $file_names_to_delete = $productImages->pluck('name');
+        StorageService::deleteFiles(StorageService::PRODUCT_DIRECTORY, $file_names_to_delete->toArray());
 
         return redirect()->route('products.index');
     }
