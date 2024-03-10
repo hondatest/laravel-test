@@ -24,7 +24,10 @@ class UpdateProductRequest extends FormRequest
     public function rules(Request $request): array
     {
         return [
-            'name' => ['required', 'string', 'max:20', Rule::unique('products')->ignore($request->route('product'))]
+            'name' => ['required', 'string', 'max:20', Rule::unique('products')->ignore($request->route('product'))],
+            'files.0' => 'file|max:8192|image|mimes:jpeg,png',
+            'files.1' => 'file|max:8192|image|mimes:jpeg,png',
+            'files.2' => 'file|max:8192|image|mimes:jpeg,png',
         ];
     }
 }
