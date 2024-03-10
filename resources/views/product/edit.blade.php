@@ -17,14 +17,27 @@
       {{ $message }}   
     @enderror
     <br><br>
-    @foreach ($product->productImages as $product_image)
-			<label>商品画像{{ $loop->iteration }}</label><br>
-      <img src="{{ asset('storage/images/product/' . $product_image->name) }}"><br>
-			<input type="file" name="files[]"><br><br>
-      @error('files.{{ $loop->index }}')
-        {{ $message }}
-      @enderror
-    @endforeach
+    <label>商品画像1</label><br>
+    <img src="{{ asset('storage/images/product/' . $product->productImages[0]->name) }}"><br>
+    <input type="file" name="files[]">
+    @error('files.0')
+      {{ $message }}
+    @enderror
+    <br><br>
+    <label>商品画像2</label><br>
+    <img src="{{ asset('storage/images/product/' . $product->productImages[1]->name) }}"><br>
+    <input type="file" name="files[]">
+    @error('files.1')
+      {{ $message }}
+    @enderror
+    <br><br>
+    <label>商品画像3</label><br>
+    <img src="{{ asset('storage/images/product/' . $product->productImages[2]->name) }}"><br>
+    <input type="file" name="files[]">
+    @error('files.2')
+      {{ $message }}
+    @enderror
+    <br><br>
 		<input type="submit" value="更新する">
 	</form>
 </body>
