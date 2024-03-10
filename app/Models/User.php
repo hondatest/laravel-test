@@ -48,7 +48,7 @@ class User extends Authenticatable
      * ユーザテーブルとクチコミテーブルを関連付ける
      *
      * @access public
-     * @return BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function reviews(): BelongsToMany
     {
@@ -67,6 +67,6 @@ class User extends Authenticatable
      */
     public function hasPostedReview(int $product_id): bool
     {
-        return $this->reviews()->find($product_id) ? true:false;
+        return $this->reviews()->find($product_id) ? true : false;
     }
 }

@@ -21,7 +21,7 @@ class Product extends Model
      * 商品テーブルとクチコミテーブルを関連付ける
      *
      * @access public
-     * @return BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function reviews(): BelongsToMany
     {
