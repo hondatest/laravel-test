@@ -14,6 +14,10 @@
     <ul>
       <div>
         <p>商品名:{{ $product->name }}</p>
+        @foreach ($product->productImages as $product_image)
+          <img src="{{ asset('storage/images/product/' . $product_image->name) }}">
+        @endforeach
+        <br>
         <a href="{{ route('products.show', ['product' => $product->id]) }}">商品詳細ページへ</a>
         <a href="{{ route('products.edit', ['product' => $product->id]) }}">商品編集ページへ</a>
         <a href="{{ route('reviews.create', ['product_id' => $product->id]) }}">クチコミ投稿ページへ</a>

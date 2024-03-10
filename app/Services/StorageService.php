@@ -30,7 +30,7 @@ class StorageService
     }
 
     /**
-     * ストレージからファイルを削除する
+     * ストレージから複数のファイルを削除する
      * 
      * @access public
      * @param  string $directory
@@ -42,5 +42,18 @@ class StorageService
         foreach ($file_names as $file_name) {
             Storage::delete($directory . '/' . $file_name);
         }
+    }
+
+    /**
+     * ストレージからファイルを削除する
+     * 
+     * @access public
+     * @param  string $directory
+     * @param  string $file_name
+     * @return void
+     */
+    public static function deleteFile(string $directory, string $file_name): void
+    {
+        Storage::delete($directory . '/' . $file_name);
     }
 }
