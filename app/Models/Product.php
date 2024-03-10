@@ -70,4 +70,22 @@ class Product extends Model
 
         $this->productImages()->createMany($name_columns);
     }
+
+    /**
+     * 商品画像テーブルから商品画像IDと一致するレコードを削除する
+     *
+     * @access public
+     * @param  array<\Illuminate\Http\UploadedFile> $uploaded_files
+     * @return void
+     */
+    public function deleteProductImages(array $uploaded_files): void
+    {
+        $product_images_id_to_delete = [];
+
+        foreach (array_keys($uploaded_files) as $key) {
+            $product_images_id_to_delete[] = $this->productImages[$key]->id;
+        }
+
+        $this->productImages()->whereIn('id', $product_images_id_to_delete)->delete();
+    }
 }

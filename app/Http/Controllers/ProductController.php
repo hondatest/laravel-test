@@ -108,11 +108,37 @@ class ProductController extends Controller
      * @param  \App\Http\Requests\UpdateProductRequest $request
      * @param  \App\Models\Product $product
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Throwable
      */
     public function update(UpdateProductRequest $request, Product $product): RedirectResponse
     {
-        $product->name = $request->name;
-        $product->save();
+        $put_file_names = [];
+
+        try {
+            DB::transaction(function () use ($request, $product, &$put_file_names) {
+                $product->fill($request->all());
+                $product->save();
+
+                // 商品画像ファイルを変更した場合は、商品画像ファイルをストレージに保存する
+                $uploaded_files = $request->file('files');
+
+                if (is_array($uploaded_files)) {
+                    // トランザクションエラーを考慮して、クエリーを全て実行後に商品画像ファイルを削除する
+                    $product->deleteProductImages($uploaded_files);
+                    $put_file_names = StorageService::putFiles(StorageService::PRODUCT_DIRECTORY, $uploaded_files);
+                    $product->saveProductImages($put_file_names);
+
+                    // クエリーを全て実行後に商品画像ファイルを削除する
+                    foreach (array_keys($uploaded_files) as $key) {
+                        StorageService::deleteFile(StorageService::PRODUCT_DIRECTORY, $product->productImages[$key]->name);
+                    }
+                }
+            });
+        } catch (\Throwable $e) {
+            // トランザクションエラーになった場合はロールバックするので、保存済み商品画像ファイルを削除する
+            StorageService::deleteFiles(StorageService::PRODUCT_DIRECTORY, $put_file_names);
+            throw $e;
+        }
 
         return redirect()->route('products.index');
     }
