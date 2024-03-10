@@ -54,6 +54,7 @@ class ProductController extends Controller
      * @access public 
      * @param  \App\Http\Requests\StoreProductRequest $request
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Throwable
      */
     public function store(StoreProductRequest $request): RedirectResponse
     {
@@ -69,9 +70,10 @@ class ProductController extends Controller
                 $put_file_names = StorageService::putFiles(StorageService::PRODUCT_DIRECTORY, $request->file('files'));
                 $product->saveProductImages($put_file_names);
             });
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             // トランザクションエラーになった場合はロールバックするので、保存済み商品画像ファイルを削除する
             StorageService::deleteFiles(StorageService::PRODUCT_DIRECTORY, $put_file_names);
+            throw $e;
         }
 
         return redirect()->route('products.index');
