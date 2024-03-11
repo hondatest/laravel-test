@@ -11,6 +11,7 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 use App\Services\StorageService;
+use App\Collections\ProductImages;
 
 class ProductController extends Controller
 {
@@ -131,6 +132,14 @@ class ProductController extends Controller
                     $product->saveProductImages($put_file_names);
                     // 全てのクエリーを実行後に商品画像ファイルを削除する
                     $product->deleteProductImagesInStorage($uploaded_files);
+
+                    /**
+                     * ファーストクラスコレクションとは、配列やコレクションをクラスにラップして管理するデザインパターンのこと。
+                     * ファーストクラスコレクションを使用することにより、配列やコレクションに関連する処理を1つのクラスにまとめることができる。
+                     * 下記のコードは、商品画像コレクションを管理するファーストコレクションクラスを使用した場合の商品画像ファイルの削除処理。
+                     */
+                    // $product_images = new ProductImages($product->productImages);
+                    // $product_images->deleteProductImagesInStorage($uploaded_files);
                 }
             });
         } catch (\Throwable $e) {
@@ -157,6 +166,14 @@ class ProductController extends Controller
         $product->productImages;
         $product->delete();
         $product->deleteAllProductImagesInStorage();
+
+        /**
+         * ファーストクラスコレクションとは、配列やコレクションをクラスにラップして管理するデザインパターンのこと。
+         * ファーストクラスコレクションを使用することにより、配列やコレクションに関連する処理を1つのクラスにまとめることができる。
+         * 下記のコードは、商品画像コレクションを管理するファーストコレクションクラスを使用した場合の商品画像ファイルの削除処理。
+         */
+        // $product_images = new ProductImages($product->productImages);
+        // $product_images->deleteAllProductImagesInStorage();
 
         return redirect()->route('products.index');
     }
