@@ -100,7 +100,7 @@ class Product extends Model
     public function deleteProductImagesInStorage(array $uploaded_files): void
     {
         foreach (array_keys($uploaded_files) as $key) {
-            StorageService::deleteFile(StorageService::PRODUCT_DIRECTORY, $this->productImages[$key]->name);
+            $this->productImages[$key]->deleteProductImagesInStorage();
         }
     }
 
