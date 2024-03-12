@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
@@ -65,7 +64,7 @@ class ProductController extends Controller
             DB::transaction(function () use ($request, &$put_file_names) {
                 $product = Product::create([
                     'name' => $request->name,
-                    'user_id' => Auth::id()
+                    'user_id' => auth()->id()
                 ]);
 
                 $put_file_names = StorageService::putFiles(StorageService::PRODUCT_DIRECTORY, $request->file('files'));

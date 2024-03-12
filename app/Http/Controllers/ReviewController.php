@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreReviewRequest;
 use App\Http\Requests\UpdateReviewRequest;
 use App\Models\Review;
@@ -32,9 +31,9 @@ class ReviewController extends Controller
      */
     public function index(): View
     {
-        return view('review.index', ['products' => Auth::user()->reviews]);
+        return view('review.index', ['products' => auth()->user()->reviews]);
     }
-  
+
     /**
      * Show the form for creating a new resource.
      *
@@ -55,8 +54,8 @@ class ReviewController extends Controller
      */
     public function store(StoreReviewRequest $request): RedirectResponse
     {
-        Auth::user()->reviews()->attach($request->product_id, ['text' => $request->text]);
-        
+        auth()->user()->reviews()->attach($request->product_id, ['text' => $request->text]);
+
         return redirect()->route('products.show', ['product' => $request->product_id]);
     }
 
@@ -77,7 +76,7 @@ class ReviewController extends Controller
      */
     public function edit(Review $review): View
     {
-        return view('review.edit', ['product' => Auth::user()->reviews()->find($review->product_id)]);
+        return view('review.edit', ['product' => auth()->user()->reviews()->find($review->product_id)]);
     }
 
     /**
@@ -90,7 +89,7 @@ class ReviewController extends Controller
      */
     public function update(UpdateReviewRequest $request, Review $review): RedirectResponse
     {
-        Auth::user()->reviews()->updateExistingPivot($review->product_id, ['text' => $request->text]);
+        auth()->user()->reviews()->updateExistingPivot($review->product_id, ['text' => $request->text]);
 
         return redirect()->route('reviews.index');
     }
@@ -104,7 +103,7 @@ class ReviewController extends Controller
      */
     public function destroy(Review $review): RedirectResponse
     {
-        Auth::user()->reviews()->detach($review->product_id);
+        auth()->user()->reviews()->detach($review->product_id);
 
         return redirect()->route('reviews.index');
     }
