@@ -34,7 +34,7 @@ class ProductController extends Controller
      */
     public function index(): view
     {
-        return view('product.index', ['products' => Product::paginate(10)]);
+        return view('product.index', ['products' => Product::with('productImages')->paginate(10)]);
     }
 
     /**
